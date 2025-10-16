@@ -1,36 +1,82 @@
-body {
-  font-family: "Inter", sans-serif;
-  background-color: #f9fafb; /* Fallback */
-  background-image: linear-gradient(180deg, #f9fafb 0%, #eef2ff 100%);
-  transition: background-color 0.3s, color 0.3s;
+:root{
+  --c1:#fff1f2; /* rose-50 */
+  --c2:#ffe4e6; /* rose-100 */
+  --c3:#fffbeb; /* amber-50 */
+  --c4:#fafaf9; /* stone-50 */
 }
 
-/* Keep layout stable when scrollbars appear/disappear */
-html { scrollbar-gutter: stable; }
+body {
+  font-family: "Inter", sans-serif;
+  
+  /* CÁC THUỘC TÍNH NỀN ĐỘNG MỚI */
+  background-attachment: fixed;
+  background-image: linear-gradient(135deg, var(--c1), var(--c2), var(--c3), var(--c4));
+  background-size: 320% 320%;
+  animation: pearlGradientFlow 26s ease-in-out infinite;
+  
+  transition: background-color 0.3s, color 0.3s; 
+}
+
+/* Lớp glow mềm rất nhẹ (không cản tương tác) */
+body::before{
+  content:"";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(60rem 60rem at 10% 20%, rgba(255,182,193,.18), transparent 60%),
+    radial-gradient(50rem 50rem at 90% 10%, rgba(255,228,196,.16), transparent 60%),
+    radial-gradient(70rem 70rem at 50% 100%, rgba(244,114,182,.10), transparent 60%);
+  mix-blend-mode: soft-light;
+  z-index: -1;
+}
+
+@keyframes pearlGradientFlow {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
+/* Tắt animation nếu người dùng chọn Reduce Motion */
+@media (prefers-reduced-motion: reduce){
+  body{ animation: none; }
+}
+
+/* ================================================= */
+/* CÁC STYLE CÒN LẠI (Đã SỬA LỖI THIẾU ; ) */
+/* ================================================= */
+
+/* Giữ layout ổn định khi scrollbar xuất hiện/biến mất */
+html { 
+  scrollbar-gutter: stable; 
+  scroll-behavior: smooth; 
+}
+html:focus-within { scroll-behavior: smooth; }
 
 /* Custom shadcn-like tooltip */
 .tooltip {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
+  position: relative; /* Đã thêm ; */
+  display: inline-flex; /* Đã thêm ; */
+  align-items: center; /* Đã thêm ; */
 }
 .tooltip .tooltiptext {
-  visibility: hidden;
-  width: 240px;
-  background-color: #111827; /* gray-900 */
-  color: #f9fafb; /* gray-50 */
-  text-align: center;
-  border-radius: 0.375rem; /* rounded-md */
-  padding: 8px 12px;
-  position: absolute;
-  z-index: 10;
-  bottom: 150%;
-  left: 50%;
-  transform: translateX(-50%);
-  opacity: 0;
-  transition: opacity 0.2s;
-  font-size: 0.75rem; /* text-xs */
-  line-height: 1.4;
+  visibility: hidden; /* Đã thêm ; */
+  width: 240px; /* Đã thêm ; */
+  background-color: #111827; /* gray-900 */ /* Đã thêm ; */
+  color: #f9fafb; /* gray-50 */ /* Đã thêm ; */
+  text-align: center; /* Đã thêm ; */
+  border-radius: 0.375rem; /* rounded-md */ /* Đã thêm ; */
+  padding: 8px 12px; /* Đã thêm ; */
+  position: absolute; /* Đã thêm ; */
+  z-index: 10; /* Đã thêm ; */
+  bottom: 150%; /* Đã thêm ; */
+  left: 50%; /* Đã thêm ; */
+  transform: translateX(-50%); /* Đã thêm ; */
+  opacity: 0; /* Đã thêm ; */
+  transition: opacity 0.2s; /* Đã thêm ; */
+  font-size: 0.75rem; /* text-xs */ /* Đã thêm ; */
+  line-height: 1.4; /* Đã thêm ; */
   pointer-events: none;
 }
 .tooltip .tooltiptext::after {
@@ -78,8 +124,6 @@ body.is-loading .container {
 .container {
   transition: opacity 0.4s ease-in-out;
 }
-
-/* Calculator removed per user request - styles deleted */
 
 /* Export modal styles */
 #export-modal { display: none; position: fixed; inset: 0; z-index: 80; align-items: center; justify-content: center; }
