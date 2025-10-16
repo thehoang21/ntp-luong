@@ -624,7 +624,7 @@ function trapFocusInModal(modalEl) {
 function buildSalarySheet() {
     // Build a simple key/value table for salary results and inputs
     const rows = [];
-    rows.push(['Trường', 'Giá trị']);
+    rows.push(['Mục', 'Giá trị']);
     // Determine how to represent otherDeductions in the export
     const otherUnitEl = document.getElementById('otherDeductionsUnit');
     const otherRaw = document.getElementById('otherDeductions') ? document.getElementById('otherDeductions').value : '';
