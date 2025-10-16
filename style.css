@@ -5,6 +5,9 @@ body {
   transition: background-color 0.3s, color 0.3s;
 }
 
+/* Keep layout stable when scrollbars appear/disappear */
+html { scrollbar-gutter: stable; }
+
 /* Custom shadcn-like tooltip */
 .tooltip {
   position: relative;
@@ -77,3 +80,191 @@ body.is-loading .container {
 }
 
 /* Calculator removed per user request - styles deleted */
+
+/* Export modal styles */
+#export-modal { display: none; position: fixed; inset: 0; z-index: 80; align-items: center; justify-content: center; }
+#export-modal:not(.hidden) { display: flex; }
+.export-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.45); z-index: 40; }
+.export-panel { position: relative; z-index: 50; }
+.export-modal .hidden { display: none; }
+
+/* shadcn-like modal animation & styles */
+.export-panel {
+  transform-origin: center;
+  transition: transform 220ms cubic-bezier(.2,.9,.3,1), opacity 200ms ease;
+  opacity: 0;
+  transform: translateY(-6px) scale(0.985);
+}
+#export-modal:not(.hidden) .export-panel {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.export-panel:focus { outline: 2px solid rgba(99,102,241,0.08); }
+.export-backdrop { transition: opacity 180ms ease; }
+
+/* Body lock when modal open */
+.modal-open { overflow: hidden; touch-action: none; }
+
+/* Small screens: bottom sheet style (iPhone) */
+/* Small screens: center modal like shadcn (not a bottom sheet) */
+@media (max-width: 480px) {
+  #export-modal { align-items: center; padding: 1rem; }
+  .export-panel {
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    border-radius: 14px;
+    transform-origin: center;
+    box-shadow: 0 10px 30px rgba(2,6,23,0.2);
+    max-height: calc(100vh - 2rem);
+    overflow: auto;
+  }
+  .export-backdrop { background: rgba(0,0,0,0.45); }
+}
+
+/* Tablet (iPad) behavior: centered but slightly wider */
+@media (min-width: 481px) and (max-width: 1024px) {
+  #export-modal { padding: 2.25rem; }
+  .export-panel { max-width: 720px; }
+}
+
+/* Custom export checkbox visuals (matches provided screenshot) */
+.export-checkbox { align-items: center; }
+.export-checkbox-box {
+  display: inline-block;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid #e6e6e6;
+  box-shadow: 0 2px 6px rgba(2,6,23,0.04);
+  margin-top: 2px;
+  flex-shrink: 0;
+  position: relative;
+}
+.export-checkbox input:checked + .export-checkbox-box {
+  background: #111827; /* almost black */
+  border-color: #111827;
+}
+.export-checkbox-box::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  display: none;
+  pointer-events: none;
+}
+.export-checkbox input:checked + .export-checkbox-box::after {
+  display: block;
+  /* Inline SVG checkmark (white) */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'><path d='M20 6L9 17l-5-5' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 12px 12px;
+  animation: pop-in 160ms cubic-bezier(.2,.9,.3,1);
+}
+
+@keyframes pop-in {
+  from { transform: scale(0.65); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Black export button */
+#export-confirm { background: #111827; border-color: transparent; }
+#export-confirm:hover { background: #0b0f13; }
+
+/* Larger touch targets on small screens */
+@media (max-width: 480px) {
+  #export-confirm { padding-top: 14px; padding-bottom: 14px; font-size: 1rem; }
+  #export-cancel-2 { padding-top: 14px; padding-bottom: 14px; }
+}
+
+/* Custom select (appearance like provided screenshot) */
+.custom-select-trigger, select#otherDeductionsUnit {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.select-like {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+/* style the select box to look like the screenshot */
+select#otherDeductionsUnit {
+  min-width: 84px;
+  padding: 0 12px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid #e6e6e6;
+  background: #fff;
+  box-shadow: 0 6px 18px rgba(16,24,40,0.06);
+  font-size: 14px;
+  color: #374151;
+}
+
+/* Ensure select and its dropdown sit on top of the modal/backdrop */
+select#otherDeductionsUnit, .select-dropdown {
+  z-index: 99999;
+}
+
+/* If you later implement a custom dropdown list, style it */
+.select-dropdown {
+  position: absolute;
+  background: #fff;
+  border: 1px solid #e6e6e6;
+  border-radius: 10px;
+  box-shadow: 0 8px 30px rgba(2,6,23,0.08);
+  padding: 8px 0;
+  width: 280px;
+  max-height: 320px;
+  overflow: auto;
+  z-index: 99999;
+}
+
+/* Make the select control wider inside the form */
+.flex.items-center.gap-x-2 > select#otherDeductionsUnit {
+  min-width: 96px;
+}
+
+/* Custom dropdown styles */
+.custom-dropdown { position: relative; display: inline-block; vertical-align: middle; }
+.dropdown-trigger {
+  min-width: 84px;
+  padding: 0 12px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid #e6e6e6;
+  background: #fff;
+  box-shadow: 0 6px 18px rgba(16,24,40,0.06);
+  color: #374151;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.dropdown-trigger:focus { outline: 2px solid rgba(99,102,241,0.12); }
+.select-dropdown { right: 0; left: auto; width: 110px; }
+.select-item { font-size: 15px; color: #111827; }
+.select-item[aria-selected="true"], .select-item.selected { background: #f3f4f6; }
+
+/* Responsive: make dropdown fit when container narrow */
+@media (max-width: 480px) {
+  .select-dropdown { width: calc(100% - 12px); left: 6px; right: 6px; border-radius: 12px; }
+  .dropdown-trigger { min-width: 84px; }
+}
+
+/* dropdown animation helpers */
+.select-dropdown {
+  transform-origin: top right;
+  transition: transform 260ms cubic-bezier(.16,.84,.29,1), opacity 220ms cubic-bezier(.16,.84,.29,1);
+  opacity: 0;
+  transform: translateY(-8px) scale(0.985);
+  pointer-events: none;
+}
+.select-dropdown.open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
